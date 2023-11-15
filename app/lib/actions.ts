@@ -20,11 +20,29 @@ const InvoiceSchema = z.object({
   date: z.string(),
 });
 
+// artistId
+const ArtistSchema = z.object({
+  id: z.string(),
+  customerId: z.string({
+    invalid_type_error: "Please select artist.",
+  }),
+  amount: z.coerce
+    .number()
+    .gt(0, { message: "Please enter an amount greater than 0." }),
+  status: z.enum(["pending", "paid"], {
+    invalid_type_error: "Please select an invoice status.",
+  }),
+  date: z.string(),
+});
+
 const CreateInvoice = InvoiceSchema.omit({ id: true, date: true });
 // Use Zod to update the expected types
 //const UpdateInvoice = InvoiceSchema.omit({ date: true });
 // Modified on 08-11-2023. Was throwing an error because of mismatch on fields
 const UpdateInvoice = InvoiceSchema.omit({ id: true, date: true });
+
+const CreateArtist = ArtistSchema.omit({ id: true, date: true });
+const UpdateArtist = ArtistSchema.omit({ id: true, date: true });
 
 // This is temporary until @types/react-dom is updated
 export type State = {
@@ -104,6 +122,47 @@ export async function createInvoice(prevState: State, formData: FormData) {
   redirect("/dashboard/invoices");
 }
 
+export async function createArtist(prevState: State, formData: FormData) {
+  // Validate form using Zod
+  const validatedFields = CreateArtist.safeParse({
+    customerId: formData.get("customerId"), // artistId
+    amount: formData.get("amount"),
+    status: formData.get("status"),
+  });
+
+  // If form validation fails, return errors early. Otherwise, continue.
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Missing Fields. Failed to Create Artist.",
+    };
+  }
+
+  // Prepare data for insertion into the database
+  const { customerId, amount, status } = validatedFields.data;
+  const amountInCents = amount * 100;
+  const date = new Date().toISOString().split("T")[0];
+
+  // Insert data into the database
+  /*
+  try {
+    await sql`
+      INSERT INTO invoices (customer_id, amount, status, date)
+      VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
+    `;
+  } catch (error) {
+    // If a database error occurs, return a more specific error.
+    return {
+      message: "Database Error: Failed to Create Invoice.",
+    };
+  }
+  */
+
+  // Revalidate the cache for the invoices page and redirect the user.
+  revalidatePath("/dashboard/artists");
+  redirect("/dashboard/artists");
+}
+
 /*
 export async function updateInvoice(id: string, formData: FormData) {
   const { customerId, amount, status } = UpdateInvoice.parse({
@@ -165,6 +224,43 @@ export async function updateInvoice(
   redirect("/dashboard/invoices");
 }
 
+export async function updateArtist(
+  id: string,
+  prevState: State,
+  formData: FormData
+) {
+  const validatedFields = UpdateArtist.safeParse({
+    customerId: formData.get("customerId"),
+    amount: formData.get("amount"),
+    status: formData.get("status"),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Missing Fields. Failed to Update Artist.",
+    };
+  }
+
+  const { customerId, amount, status } = validatedFields.data;
+  const amountInCents = amount * 100;
+
+  /*
+  try {
+    await sql`
+      UPDATE invoices
+      SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
+      WHERE id = ${id}
+    `;
+  } catch (error) {
+    return { message: "Database Error: Failed to Update Invoice." };
+  }
+  */
+
+  revalidatePath("/dashboard/artists");
+  redirect("/dashboard/artists");
+}
+
 export async function deleteInvoice(id: string, formData: FormData) {
   //throw new Error("Failed to Delete Invoice");
   // if above code is used then below code block would be unreachable
@@ -175,6 +271,19 @@ export async function deleteInvoice(id: string, formData: FormData) {
     return { message: "Deleted Invoice" };
   } catch (error) {
     return { message: "Database Error: Failed to Delete Invoice" };
+  }
+}
+
+export async function deleteArtist(id: string, formData: FormData) {
+  //throw new Error("Failed to Delete Artist");
+  // if above code is used then below code block would be unreachable
+
+  try {
+    //await sql`DELETE FROM artists WHERE id = ${id}`;
+    revalidatePath("/dashboard/artists");
+    return { message: "Deleted Artist" };
+  } catch (error) {
+    return { message: "Database Error: Failed to Delete Artist" };
   }
 }
 

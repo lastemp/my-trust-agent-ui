@@ -3,13 +3,14 @@ import {
   CustomerField,
   CustomersTable,
   InvoiceForm,
+  ArtistForm,
   InvoicesTable,
   LatestInvoiceRaw,
   User,
   Revenue,
 } from "./definitions";
 import { formatCurrency } from "./utils";
-import { customers, invoices, revenue } from "./placeholder-data";
+import { customers, invoices, revenue, artists } from "./placeholder-data";
 import { unstable_noStore as noStore } from "next/cache";
 
 export async function fetchRevenue() {
@@ -365,6 +366,51 @@ export async function fetchInvoiceById(id: string) {
   }
 }
 
+export async function fetchArtistById(id: string) {
+  noStore();
+  try {
+    /*
+    const data = await sql<InvoiceForm>`
+      SELECT
+        invoices.id,
+        invoices.customer_id,
+        invoices.amount,
+        invoices.status
+      FROM invoices
+      WHERE invoices.id = ${id};
+    `;
+
+    const invoice = data.rows.map((invoice) => ({
+      ...invoice,
+      // Convert amount from cents to dollars
+      amount: invoice.amount / 100,
+    }));
+
+    return invoice[0];
+    */
+
+    /*
+    function isInvoices(invoice) {
+      return invoice.customer_id === id;
+    }
+
+    const myinvoices = invoices.find(isInvoices);
+    */
+    //console.log("id:" + id);
+    const myartists: ArtistForm = {
+      //id: "3958dc9e-712f-4377-85e9-fec4b6a6442a",
+      id: id,
+      customer_id: "3958dc9e-712f-4377-85e9-fec4b6a6442a",
+      amount: 15795,
+      status: "pending",
+    };
+
+    return myartists;
+  } catch (error) {
+    console.error("Database Error:", error);
+  }
+}
+
 export async function fetchCustomers() {
   noStore();
   try {
@@ -417,6 +463,52 @@ export async function fetchFilteredCustomers(query: string) {
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to fetch customer table.");
+  }
+}
+
+export async function fetchArtists() {
+  noStore();
+  try {
+    /*
+    const data = await sql<ArtistField>`
+      SELECT
+        id,
+        name
+      FROM artists
+      ORDER BY name ASC
+    `;
+
+    const customers = data.rows;
+    */
+    return artists;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch all artists.");
+  }
+}
+
+export async function fetchArtistsPages(query: string) {
+  noStore();
+  try {
+    /*
+    const count = await sql`SELECT COUNT(*)
+    FROM invoices
+    JOIN customers ON invoices.customer_id = customers.id
+    WHERE
+      customers.name ILIKE ${`%${query}%`} OR
+      customers.email ILIKE ${`%${query}%`} OR
+      invoices.amount::text ILIKE ${`%${query}%`} OR
+      invoices.date::text ILIKE ${`%${query}%`} OR
+      invoices.status ILIKE ${`%${query}%`}
+  `;
+  */
+
+    const totalPages = Math.ceil(Number(artists.length) / ITEMS_PER_PAGE);
+
+    return totalPages;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch total number of artists.");
   }
 }
 
