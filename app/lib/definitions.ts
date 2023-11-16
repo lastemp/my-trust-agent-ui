@@ -85,6 +85,11 @@ export type ArtistField = {
   name: string;
 };
 
+export type BankField = {
+  id: string;
+  name: string;
+};
+
 export type InvoiceForm = {
   id: string;
   customer_id: string;
@@ -95,6 +100,14 @@ export type InvoiceForm = {
 export type ArtistForm = {
   id: string;
   customer_id: string;
-  amount: number;
-  status: "pending" | "paid";
+  name: string;
+  national_id: number;
+  mobile_no: number;
+  bank_name: string;
+  bank_account: number;
+};
+
+export type BankForm = {
+  id: string;
+  name: string;
 };

@@ -1,9 +1,16 @@
 import Form from '@/app/ui/artists/create-form';
 import Breadcrumbs from '@/app/ui/artists/breadcrumbs';
-import { fetchArtists } from '@/app/lib/data';
+import { fetchArtists, fetchBanks } from '@/app/lib/data';
  
 export default async function Page() {
+  /*
   const artists = await fetchArtists();
+  const banks = await fetchBanks;
+  */
+  const [artists, banks] = await Promise.all([
+    fetchArtists(),
+    fetchBanks(),
+  ]);
  
   return (
     <main>
@@ -17,7 +24,7 @@ export default async function Page() {
           },
         ]}
       />
-      <Form artists={artists} />
+      <Form artists={artists} banks={banks} />
     </main>
   );
 }

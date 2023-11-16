@@ -1,18 +1,21 @@
 import Form from '@/app/ui/artists/edit-form';
 import Breadcrumbs from '@/app/ui/artists/breadcrumbs';
-import { fetchInvoiceById, fetchArtists } from '@/app/lib/data';
+import { fetchInvoiceById, fetchArtistById, fetchBankById } from '@/app/lib/data';
 import { notFound } from 'next/navigation';
  
 export default async function Page({ params }: { params: { id: string } }) {
     const id = params.id;
-    const [invoice, artists] = await Promise.all([
+    const [invoice, artist, bank] = await Promise.all([
         fetchInvoiceById(id),
-        fetchArtists(),
+        fetchArtistById(id),
+        fetchBankById(id),
       ]);
       
       if (!invoice) {
         notFound();
-      }  
+      }
+
+      console.log('bank: ' + bank?.id)
 
   return (
     <main>
@@ -26,7 +29,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           },
         ]}
       />
-      <Form invoice={invoice} artists={artists} />
+      <Form invoice={invoice} artist={artist} bank={bank}/>
     </main>
   );
 }

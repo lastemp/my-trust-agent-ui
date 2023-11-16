@@ -1,11 +1,12 @@
 'use client';
 
-import { ArtistField, InvoiceForm } from '@/app/lib/definitions';
+import { ArtistForm, BankForm, InvoiceForm } from '@/app/lib/definitions';
 import {
   CheckIcon,
   ClockIcon,
   CurrencyDollarIcon,
   UserCircleIcon,
+  PencilIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
@@ -14,10 +15,12 @@ import { useFormState } from 'react-dom';
 
 export default function EditArtistForm({
   invoice,
-  artists,
+  artist,
+  bank,
 }: {
   invoice: InvoiceForm;
-  artists: ArtistField[];
+  artist: ArtistForm;
+  bank: BankForm;
 }) {
   const initialState = { message: null, errors: {} };
   const updateArtistWithId = updateArtist.bind(null, invoice.id);
@@ -30,7 +33,7 @@ export default function EditArtistForm({
         {/* artist Name */}
         <div className="mb-4">
           <label htmlFor="artist" className="mb-2 block text-sm font-medium">
-            Choose artist
+            Artist
           </label>
           <div className="relative">
             <select
@@ -43,11 +46,9 @@ export default function EditArtistForm({
               <option value="" disabled>
                 Select artist
               </option>
-              {artists.map((artist) => (
-                <option key={artist.id} value={artist.id}>
+              <option key={artist.id} value={artist.id}>
                   {artist.name}
                 </option>
-              ))}
             </select>
             <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>
@@ -64,93 +65,140 @@ export default function EditArtistForm({
       ) : null}
         </div>
 
-        {/* Invoice Amount */}
+        {/* National Id */}
         <div className="mb-4">
-          <label htmlFor="amount" className="mb-2 block text-sm font-medium">
-            Choose an amount
+          <label htmlFor="nationalId" className="mb-2 block text-sm font-medium">
+            National Id
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
               <input
-                id="amount"
-                name="amount"
+                id="nationalId"
+                name="nationalId"
                 type="number"
-                defaultValue={invoice.amount}
-                placeholder="Enter USD amount"
+                defaultValue={artist.national_id}
+                //step="0.01"
+                placeholder="Enter National Id"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                aria-describedby="amount-error"
+                aria-describedby="nationalId-error"
               />
-              <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+              <PencilIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
-                {state.errors?.amount ? (
+            {state.errors?.nationalId ? (
             <div
-              id="amount-error"
+              id="nationalId-error"
               aria-live="polite"
               className="mt-2 text-sm text-red-500"
             >
-              {state.errors.amount.map((error: string) => (
+              {state.errors.nationalId.map((error: string) => (
                 <p key={error}>{error}</p>
               ))}
             </div>
           ) : null}
-          </div>
+              </div>
         </div>
 
-        {/* Invoice Status */}
-        <fieldset>
-          <legend className="mb-2 block text-sm font-medium">
-            Set the invoice status
-          </legend>
-          <div className="rounded-md border border-gray-200 bg-white px-[14px] py-3">
-            <div className="flex gap-4">
-              <div className="flex items-center">
-                <input
-                  id="pending"
-                  name="status"
-                  type="radio"
-                  value="pending"
-                  defaultChecked={invoice.status === 'pending'}
-                  className="h-4 w-4 border-gray-300 bg-gray-100 text-gray-600 focus:ring-2 focus:ring-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-gray-600"
-                  aria-describedby="status-error"
-                />
-                <label
-                  htmlFor="pending"
-                  className="ml-2 flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-600 dark:text-gray-300"
-                >
-                  Pending <ClockIcon className="h-4 w-4" />
-                </label>
-              </div>
-              <div className="flex items-center">
-                <input
-                  id="paid"
-                  name="status"
-                  type="radio"
-                  value="paid"
-                  defaultChecked={invoice.status === 'paid'}
-                  className="h-4 w-4 border-gray-300 bg-gray-100 text-gray-600 focus:ring-2 focus:ring-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-gray-600"
-                  aria-describedby="status-error"
-                />
-                <label
-                  htmlFor="paid"
-                  className="ml-2 flex items-center gap-1.5 rounded-full bg-green-500 px-3 py-1.5 text-xs font-medium text-white dark:text-gray-300"
-                >
-                  Paid <CheckIcon className="h-4 w-4" />
-                </label>
-              </div>
-              {state.errors?.status ? (
-                <div
-                  id="status-error"
-                  aria-live="polite"
-                  className="mt-2 text-sm text-red-500"
-                >
-                  {state.errors.status.map((error: string) => (
-                    <p key={error}>{error}</p>
-                  ))}
-                </div>
-              ) : null}
+        {/* Mobile No */}
+        <div className="mb-4">
+          <label htmlFor="mobileNo" className="mb-2 block text-sm font-medium">
+            Mobile No
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="mobileNo"
+                name="mobileNo"
+                type="number"
+                defaultValue={artist.mobile_no}
+                //step="0.01"
+                placeholder="Enter Mobile No"
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                aria-describedby="mobileNo-error"
+              />
+              <PencilIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
+            {state.errors?.mobileNo ? (
+            <div
+              id="mobileNo-error"
+              aria-live="polite"
+              className="mt-2 text-sm text-red-500"
+            >
+              {state.errors.mobileNo.map((error: string) => (
+                <p key={error}>{error}</p>
+              ))}
+            </div>
+          ) : null}
+              </div>
+        </div>
+
+        {/* Bank Account */}
+        <div className="mb-4">
+          <label htmlFor="bankAccount" className="mb-2 block text-sm font-medium">
+            Bank Account
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="bankAccount"
+                name="bankAccount"
+                type="number"
+                defaultValue={artist.bank_account}
+                //step="0.01"
+                placeholder="Enter Bank Account"
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                aria-describedby="bankAccount-error"
+              />
+              <PencilIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+            </div>
+            {state.errors?.bankAccount ? (
+            <div
+              id="bankAccount-error"
+              aria-live="polite"
+              className="mt-2 text-sm text-red-500"
+            >
+              {state.errors.bankAccount.map((error: string) => (
+                <p key={error}>{error}</p>
+              ))}
+            </div>
+          ) : null}
+              </div>
+        </div>
+
+        {/* Bank Name */}
+        <div className="mb-4">
+          <label htmlFor="artist" className="mb-2 block text-sm font-medium">
+            Bank
+          </label>
+          <div className="relative">
+            <select
+              id="bankName"
+              name="bankId"
+              className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              defaultValue={artist.id}
+              aria-describedby="bankName-error"
+            >
+              <option value="" disabled>
+                Select bank
+              </option>
+              <option key={artist.id} value={artist.id}>
+                  {bank.name}
+                </option>
+            </select>
+            <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>
-        </fieldset>
+            {state.errors?.bankId ? (
+          <div
+            id="bankName-error"
+            aria-live="polite"
+            className="mt-2 text-sm text-red-500"
+          >
+            {state.errors.bankId.map((error: string) => (
+              <p key={error}>{error}</p>
+            ))}
+          </div>
+        ) : null}
+        </div>
+
       </div>
       <div className="mt-6 flex justify-end gap-4">
         <Link

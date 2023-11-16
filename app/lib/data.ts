@@ -4,13 +4,20 @@ import {
   CustomersTable,
   InvoiceForm,
   ArtistForm,
+  BankForm,
   InvoicesTable,
   LatestInvoiceRaw,
   User,
   Revenue,
 } from "./definitions";
 import { formatCurrency } from "./utils";
-import { customers, invoices, revenue, artists } from "./placeholder-data";
+import {
+  customers,
+  invoices,
+  revenue,
+  artists,
+  banks,
+} from "./placeholder-data";
 import { unstable_noStore as noStore } from "next/cache";
 
 export async function fetchRevenue() {
@@ -398,14 +405,30 @@ export async function fetchArtistById(id: string) {
     */
     //console.log("id:" + id);
     const myartists: ArtistForm = {
-      //id: "3958dc9e-712f-4377-85e9-fec4b6a6442a",
-      id: id,
-      customer_id: "3958dc9e-712f-4377-85e9-fec4b6a6442a",
-      amount: 15795,
-      status: "pending",
+      id: "3958dc9e-742f-4377-85e9-fec4b6a6442a",
+      customer_id: "3958dc9e-742f-4377-85e9-fec4b6a6442a",
+      name: "Lee Robinson",
+      national_id: 123456789,
+      mobile_no: 254700123456,
+      bank_name: "NCBA",
+      bank_account: 123456789,
     };
 
     return myartists;
+  } catch (error) {
+    console.error("Database Error:", error);
+  }
+}
+
+export async function fetchBankById(id: string) {
+  noStore();
+  try {
+    const myBank: BankForm = {
+      id: "3958dc9e-742f-4377-85e9-fec4b6a6442a",
+      name: "NCBA",
+    };
+
+    return myBank;
   } catch (error) {
     console.error("Database Error:", error);
   }
@@ -481,6 +504,27 @@ export async function fetchArtists() {
     const customers = data.rows;
     */
     return artists;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch all artists.");
+  }
+}
+
+export async function fetchBanks() {
+  noStore();
+  try {
+    /*
+    const data = await sql<BankField>`
+      SELECT
+        id,
+        name
+      FROM banks
+      ORDER BY name ASC
+    `;
+
+    const customers = data.rows;
+    */
+    return banks;
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to fetch all artists.");
