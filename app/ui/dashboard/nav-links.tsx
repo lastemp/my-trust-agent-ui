@@ -21,6 +21,7 @@ const links = [
   },
   { name: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon },
   { name: 'Artists', href: '/dashboard/artists', icon: UserGroupIcon },
+  { name: 'Institutions', href: '/dashboard/institutions', icon: UserGroupIcon },
 ];
 
 export default function NavLinks() {

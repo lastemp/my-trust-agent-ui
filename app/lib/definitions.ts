@@ -90,6 +90,11 @@ export type BankField = {
   name: string;
 };
 
+export type InstitutionField = {
+  id: string;
+  name: string;
+};
+
 export type InvoiceForm = {
   id: string;
   customer_id: string;
@@ -98,6 +103,16 @@ export type InvoiceForm = {
 };
 
 export type ArtistForm = {
+  id: string;
+  customer_id: string;
+  name: string;
+  national_id: number;
+  mobile_no: number;
+  bank_name: string;
+  bank_account: number;
+};
+
+export type InstitutionForm = {
   id: string;
   customer_id: string;
   name: string;

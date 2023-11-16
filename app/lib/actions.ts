@@ -35,6 +35,21 @@ const ArtistSchema = z.object({
   date: z.string(),
 });
 
+// institutiontId
+const InstitutionSchema = z.object({
+  id: z.string(),
+  customerId: z.string({
+    invalid_type_error: "Please select institution.",
+  }),
+  amount: z.coerce
+    .number()
+    .gt(0, { message: "Please enter an amount greater than 0." }),
+  status: z.enum(["pending", "paid"], {
+    invalid_type_error: "Please select an invoice status.",
+  }),
+  date: z.string(),
+});
+
 const CreateInvoice = InvoiceSchema.omit({ id: true, date: true });
 // Use Zod to update the expected types
 //const UpdateInvoice = InvoiceSchema.omit({ date: true });
@@ -43,6 +58,9 @@ const UpdateInvoice = InvoiceSchema.omit({ id: true, date: true });
 
 const CreateArtist = ArtistSchema.omit({ id: true, date: true });
 const UpdateArtist = ArtistSchema.omit({ id: true, date: true });
+
+const CreateInstitution = InstitutionSchema.omit({ id: true, date: true });
+const UpdateInstitution = InstitutionSchema.omit({ id: true, date: true });
 
 // This is temporary until @types/react-dom is updated
 export type State = {
@@ -163,6 +181,47 @@ export async function createArtist(prevState: State, formData: FormData) {
   redirect("/dashboard/artists");
 }
 
+export async function createInstitution(prevState: State, formData: FormData) {
+  // Validate form using Zod
+  const validatedFields = CreateInstitution.safeParse({
+    customerId: formData.get("customerId"), // artistId
+    amount: formData.get("amount"),
+    status: formData.get("status"),
+  });
+
+  // If form validation fails, return errors early. Otherwise, continue.
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Missing Fields. Failed to Create Institution.",
+    };
+  }
+
+  // Prepare data for insertion into the database
+  const { customerId, amount, status } = validatedFields.data;
+  const amountInCents = amount * 100;
+  const date = new Date().toISOString().split("T")[0];
+
+  // Insert data into the database
+  /*
+  try {
+    await sql`
+      INSERT INTO invoices (customer_id, amount, status, date)
+      VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
+    `;
+  } catch (error) {
+    // If a database error occurs, return a more specific error.
+    return {
+      message: "Database Error: Failed to Create Invoice.",
+    };
+  }
+  */
+
+  // Revalidate the cache for the invoices page and redirect the user.
+  revalidatePath("/dashboard/institutions");
+  redirect("/dashboard/institutions");
+}
+
 /*
 export async function updateInvoice(id: string, formData: FormData) {
   const { customerId, amount, status } = UpdateInvoice.parse({
@@ -261,6 +320,43 @@ export async function updateArtist(
   redirect("/dashboard/artists");
 }
 
+export async function updateInstitution(
+  id: string,
+  prevState: State,
+  formData: FormData
+) {
+  const validatedFields = UpdateInstitution.safeParse({
+    customerId: formData.get("customerId"),
+    amount: formData.get("amount"),
+    status: formData.get("status"),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Missing Fields. Failed to Update Institution.",
+    };
+  }
+
+  const { customerId, amount, status } = validatedFields.data;
+  const amountInCents = amount * 100;
+
+  /*
+  try {
+    await sql`
+      UPDATE invoices
+      SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
+      WHERE id = ${id}
+    `;
+  } catch (error) {
+    return { message: "Database Error: Failed to Update Invoice." };
+  }
+  */
+
+  revalidatePath("/dashboard/institutions");
+  redirect("/dashboard/institutions");
+}
+
 export async function deleteInvoice(id: string, formData: FormData) {
   //throw new Error("Failed to Delete Invoice");
   // if above code is used then below code block would be unreachable
@@ -284,6 +380,19 @@ export async function deleteArtist(id: string, formData: FormData) {
     return { message: "Deleted Artist" };
   } catch (error) {
     return { message: "Database Error: Failed to Delete Artist" };
+  }
+}
+
+export async function deleteInstitution(id: string, formData: FormData) {
+  //throw new Error("Failed to Delete Institution");
+  // if above code is used then below code block would be unreachable
+
+  try {
+    //await sql`DELETE FROM institutions WHERE id = ${id}`;
+    revalidatePath("/dashboard/institutions");
+    return { message: "Deleted Institution" };
+  } catch (error) {
+    return { message: "Database Error: Failed to Delete Institution" };
   }
 }
 

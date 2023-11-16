@@ -15,8 +15,6 @@ export default async function Page({ params }: { params: { id: string } }) {
         notFound();
       }
 
-      console.log('bank: ' + bank?.id)
-
   return (
     <main>
       <Breadcrumbs

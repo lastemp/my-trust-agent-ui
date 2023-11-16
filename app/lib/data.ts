@@ -17,6 +17,7 @@ import {
   revenue,
   artists,
   banks,
+  institutions,
 } from "./placeholder-data";
 import { unstable_noStore as noStore } from "next/cache";
 
@@ -455,6 +456,26 @@ export async function fetchCustomers() {
   }
 }
 
+export async function fetchInstitutionById(id: string) {
+  noStore();
+  try {
+    //console.log("id:" + id);
+    const myinstitutions: ArtistForm = {
+      id: "3958dc9e-742f-4377-85e9-fec4b6a6442a",
+      customer_id: "3958dc9e-742f-4377-85e9-fec4b6a6442a",
+      name: "Lee Robinson",
+      national_id: 123456789,
+      mobile_no: 254700123456,
+      bank_name: "NCBA",
+      bank_account: 123456789,
+    };
+
+    return myinstitutions;
+  } catch (error) {
+    console.error("Database Error:", error);
+  }
+}
+
 export async function fetchFilteredCustomers(query: string) {
   noStore();
   try {
@@ -531,6 +552,27 @@ export async function fetchBanks() {
   }
 }
 
+export async function fetchInstitutions() {
+  noStore();
+  try {
+    /*
+    const data = await sql<ArtistField>`
+      SELECT
+        id,
+        name
+      FROM institutions
+      ORDER BY name ASC
+    `;
+
+    const customers = data.rows;
+    */
+    return institutions;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch all institutions.");
+  }
+}
+
 export async function fetchArtistsPages(query: string) {
   noStore();
   try {
@@ -548,6 +590,18 @@ export async function fetchArtistsPages(query: string) {
   */
 
     const totalPages = Math.ceil(Number(artists.length) / ITEMS_PER_PAGE);
+
+    return totalPages;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch total number of artists.");
+  }
+}
+
+export async function fetchInstitutionsPages(query: string) {
+  noStore();
+  try {
+    const totalPages = Math.ceil(Number(institutions.length) / ITEMS_PER_PAGE);
 
     return totalPages;
   } catch (error) {
