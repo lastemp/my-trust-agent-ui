@@ -5,10 +5,12 @@ import {
   InvoiceForm,
   ArtistForm,
   BankForm,
+  InstitutionForm,
   InvoicesTable,
   LatestInvoiceRaw,
   User,
   Revenue,
+  EventForm,
 } from "./definitions";
 import { formatCurrency } from "./utils";
 import {
@@ -18,6 +20,7 @@ import {
   artists,
   banks,
   institutions,
+  events,
 } from "./placeholder-data";
 import { unstable_noStore as noStore } from "next/cache";
 
@@ -460,17 +463,36 @@ export async function fetchInstitutionById(id: string) {
   noStore();
   try {
     //console.log("id:" + id);
-    const myinstitutions: ArtistForm = {
+    const myinstitutions: InstitutionForm = {
       id: "3958dc9e-742f-4377-85e9-fec4b6a6442a",
       customer_id: "3958dc9e-742f-4377-85e9-fec4b6a6442a",
       name: "Lee Robinson",
-      national_id: 123456789,
+      kra_pin: "123456789",
       mobile_no: 254700123456,
       bank_name: "NCBA",
       bank_account: 123456789,
     };
 
     return myinstitutions;
+  } catch (error) {
+    console.error("Database Error:", error);
+  }
+}
+
+export async function fetchEventById(id: string) {
+  noStore();
+  try {
+    //console.log("id:" + id);
+    const myevents: EventForm = {
+      id: "3958dc9e-712f-4377-85e9-fec4b6a6442a",
+      name: "OktobaFest - 2023",
+      total_budget: 50000000,
+      funds_deposited: 50000000,
+      date: "29-10-2023",
+      institution_name: "KCB",
+    };
+
+    return myevents;
   } catch (error) {
     console.error("Database Error:", error);
   }
@@ -548,7 +570,7 @@ export async function fetchBanks() {
     return banks;
   } catch (err) {
     console.error("Database Error:", err);
-    throw new Error("Failed to fetch all artists.");
+    throw new Error("Failed to fetch all banks.");
   }
 }
 
@@ -567,6 +589,27 @@ export async function fetchInstitutions() {
     const customers = data.rows;
     */
     return institutions;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch all institutions.");
+  }
+}
+
+export async function fetchEvents() {
+  noStore();
+  try {
+    /*
+    const data = await sql<EventField>`
+      SELECT
+        id,
+        name
+      FROM events
+      ORDER BY name ASC
+    `;
+
+    const events = data.rows;
+    */
+    return events;
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to fetch all institutions.");
@@ -606,7 +649,19 @@ export async function fetchInstitutionsPages(query: string) {
     return totalPages;
   } catch (error) {
     console.error("Database Error:", error);
-    throw new Error("Failed to fetch total number of artists.");
+    throw new Error("Failed to fetch total number of institutions.");
+  }
+}
+
+export async function fetchEventsPages(query: string) {
+  noStore();
+  try {
+    const totalPages = Math.ceil(Number(events.length) / ITEMS_PER_PAGE);
+
+    return totalPages;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch total number of events.");
   }
 }
 

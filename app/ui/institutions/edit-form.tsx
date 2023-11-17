@@ -65,32 +65,32 @@ export default function EditInstitutionForm({
       ) : null}
         </div>
 
-        {/* National Id */}
+        {/* KRA Pin */}
         <div className="mb-4">
-          <label htmlFor="nationalId" className="mb-2 block text-sm font-medium">
-            National Id
+          <label htmlFor="kraPin" className="mb-2 block text-sm font-medium">
+            KRA Pin
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
               <input
-                id="nationalId"
-                name="nationalId"
-                type="number"
-                defaultValue={institution.national_id}
+                id="kraPin"
+                name="kraPin"
+                type="string"
+                defaultValue={institution.kra_pin}
                 //step="0.01"
-                placeholder="Enter National Id"
+                placeholder="Enter KRA Pin"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                aria-describedby="nationalId-error"
+                aria-describedby="kraPin-error"
               />
               <PencilIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
-            {state.errors?.nationalId ? (
+            {state.errors?.kraPin ? (
             <div
-              id="nationalId-error"
+              id="kraPin-error"
               aria-live="polite"
               className="mt-2 text-sm text-red-500"
             >
-              {state.errors.nationalId.map((error: string) => (
+              {state.errors.kraPin.map((error: string) => (
                 <p key={error}>{error}</p>
               ))}
             </div>

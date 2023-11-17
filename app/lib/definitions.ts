@@ -95,6 +95,11 @@ export type InstitutionField = {
   name: string;
 };
 
+export type EventField = {
+  id: string;
+  name: string;
+};
+
 export type InvoiceForm = {
   id: string;
   customer_id: string;
@@ -116,7 +121,7 @@ export type InstitutionForm = {
   id: string;
   customer_id: string;
   name: string;
-  national_id: number;
+  kra_pin: string;
   mobile_no: number;
   bank_name: string;
   bank_account: number;
@@ -125,4 +130,13 @@ export type InstitutionForm = {
 export type BankForm = {
   id: string;
   name: string;
+};
+
+export type EventForm = {
+  id: string;
+  name: string;
+  total_budget: number;
+  funds_deposited: number;
+  date: string;
+  institution_name: string;
 };
