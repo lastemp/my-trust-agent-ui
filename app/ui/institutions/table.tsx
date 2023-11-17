@@ -27,13 +27,13 @@ export default async function InstitutionsTable({
                 <div className="flex items-center justify-between border-b pb-4">
                   <div>
                     <div className="mb-2 flex items-center">
-                      <Image
+                      {/* <Image
                         src={institution.image_url}
                         className="mr-2 rounded-full"
                         width={28}
                         height={28}
                         alt={`${institution.name}'s profile picture`}
-                      />
+                      /> */}
                       <p>{institution.name}</p>
                     </div>
                     <p className="text-sm text-gray-500">{institution.email}</p>
@@ -90,13 +90,13 @@ export default async function InstitutionsTable({
                 >
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex items-center gap-3">
-                      <Image
+                      {/* <Image
                         src={institution.image_url}
                         className="rounded-full"
                         width={28}
                         height={28}
                         alt={`${institution.name}'s profile picture`}
-                      />
+                      /> */}
                       <p>{institution.name}</p>
                     </div>
                   </td>

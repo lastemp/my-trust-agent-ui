@@ -464,9 +464,11 @@ export async function fetchInstitutionById(id: string) {
   try {
     //console.log("id:" + id);
     const myinstitutions: InstitutionForm = {
-      id: "3958dc9e-742f-4377-85e9-fec4b6a6442a",
-      customer_id: "3958dc9e-742f-4377-85e9-fec4b6a6442a",
-      name: "Lee Robinson",
+      id: "76d65c26-f784-44a2-ac19-586678f7c2f2",
+      customer_id: "76d65c26-f784-44a2-ac19-586678f7c2f2",
+      name: "EABL",
+      email: "info@eabl.com",
+      //image_url: "/institutions/eabl.png",
       kra_pin: "123456789",
       mobile_no: 254700123456,
       bank_name: "NCBA",

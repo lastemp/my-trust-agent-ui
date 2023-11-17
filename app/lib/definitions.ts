@@ -121,6 +121,7 @@ export type InstitutionForm = {
   id: string;
   customer_id: string;
   name: string;
+  email: string;
   kra_pin: string;
   mobile_no: number;
   bank_name: string;

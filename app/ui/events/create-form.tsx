@@ -21,41 +21,37 @@ export default function Form({ events, institutions }: { events: EventField[]; i
   return (
     <form action={dispatch}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
+
         {/* event Name */}
         <div className="mb-4">
           <label htmlFor="event" className="mb-2 block text-sm font-medium">
             Event
           </label>
-          <div className="relative">
-            <select
-              id="event"
-              name="customerId"
-              className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              defaultValue=""
-              aria-describedby="event-error"
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="event"
+                name="event"
+                type="string"
+                //step="0.01"
+                placeholder="Enter Event Name"
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                aria-describedby="event-error"
+              />
+              <PencilIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+            </div>
+            {state.errors?.event ? (
+            <div
+              id="event-error"
+              aria-live="polite"
+              className="mt-2 text-sm text-red-500"
             >
-              <option value="" disabled>
-                Select event
-              </option>
-              {events.map((event) => (
-                <option key={event.id} value={event.id}>
-                  {event.name}
-                </option>
+              {state.errors.event.map((error: string) => (
+                <p key={error}>{error}</p>
               ))}
-            </select>
-            <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
-          </div>
-            {state.errors?.customerId ? (
-          <div
-            id="event-error"
-            aria-live="polite"
-            className="mt-2 text-sm text-red-500"
-          >
-            {state.errors.customerId.map((error: string) => (
-              <p key={error}>{error}</p>
-            ))}
-          </div>
-        ) : null}
+            </div>
+          ) : null}
+              </div>
         </div>
 
         {/* Total Budget */}
