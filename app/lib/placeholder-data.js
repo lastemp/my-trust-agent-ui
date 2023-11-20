@@ -357,6 +357,63 @@ const events = [
   },
 ];
 
+const transactions = [
+  {
+    id: '3958dc9e-712f-4377-85e9-fec4b6a6442a',
+    event_name: 'OktobaFest - 2023',
+    artist_name: 'Delba de Oliveira',
+    amount_owed: 500000,
+    amount_paid: 0,
+    date: '27-08-2023',
+    institution_name: 'EABL',
+  },
+  {
+    id: '3958dc9e-712f-4377-85e9-fec4b6a6442a',
+    event_name: 'OktobaFest - 2023',
+    artist_name: 'Lee Robinson',
+    amount_owed: 600000,
+    amount_paid: 0,
+    date: '27-08-2023',
+    institution_name: 'EABL',
+  },
+  {
+    id: '3958dc9e-712f-4377-85e9-fec4b6a6442a',
+    event_name: 'OktobaFest - 2023',
+    artist_name: 'Hector Simpson',
+    amount_owed: 800000,
+    amount_paid: 0,
+    date: '27-08-2023',
+    institution_name: 'EABL',
+  },
+  {
+    id: '3958dc9e-712f-4377-85e9-fec4b6a6442a',
+    event_name: 'OktobaFest - 2023',
+    artist_name: 'Steven Tey',
+    amount_owed: 900000,
+    amount_paid: 0,
+    date: '27-08-2023',
+    institution_name: 'EABL',
+  },
+  {
+    id: '3958dc9e-712f-4377-85e9-fec4b6a6442a',
+    event_name: 'OktobaFest - 2023',
+    artist_name: 'Michael Novotny',
+    amount_owed: 1000000,
+    amount_paid: 0,
+    date: '27-08-2023',
+    institution_name: 'EABL',
+  },
+  {
+    id: '3958dc9e-712f-4377-85e9-fec4b6a6442a',
+    event_name: 'OktobaFest - 2023',
+    artist_name: 'Steph Dietz',
+    amount_owed: 1100000,
+    amount_paid: 0,
+    date: '27-08-2023',
+    institution_name: 'EABL',
+  },
+];
+
 module.exports = {
   users,
   customers,
@@ -366,4 +423,5 @@ module.exports = {
   banks,
   institutions,
   events,
+  transactions,
 };

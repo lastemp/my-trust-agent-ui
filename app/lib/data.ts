@@ -11,6 +11,7 @@ import {
   User,
   Revenue,
   EventForm,
+  TransactionForm,
 } from "./definitions";
 import { formatCurrency } from "./utils";
 import {
@@ -21,6 +22,7 @@ import {
   banks,
   institutions,
   events,
+  transactions,
 } from "./placeholder-data";
 import { unstable_noStore as noStore } from "next/cache";
 
@@ -500,6 +502,26 @@ export async function fetchEventById(id: string) {
   }
 }
 
+export async function fetchTransactionById(id: string) {
+  noStore();
+  try {
+    //console.log("id:" + id);
+    const mytransactions: TransactionForm = {
+      id: "3958dc9e-712f-4377-85e9-fec4b6a6442a",
+      event_name: "OktobaFest - 2023",
+      artist_name: "Delba de Oliveira",
+      amount_owed: 500000,
+      amount_paid: 0,
+      date: "27-08-2023",
+      institution_name: "EABL",
+    };
+
+    return mytransactions;
+  } catch (error) {
+    console.error("Database Error:", error);
+  }
+}
+
 export async function fetchFilteredCustomers(query: string) {
   noStore();
   try {
@@ -618,6 +640,27 @@ export async function fetchEvents() {
   }
 }
 
+export async function fetchTransactions() {
+  noStore();
+  try {
+    /*
+    const data = await sql<TransactiontField>`
+      SELECT
+        id,
+        name
+      FROM transactions
+      ORDER BY name ASC
+    `;
+
+    const transactions = data.rows;
+    */
+    return transactions;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch all transactions.");
+  }
+}
+
 export async function fetchArtistsPages(query: string) {
   noStore();
   try {
@@ -664,6 +707,18 @@ export async function fetchEventsPages(query: string) {
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch total number of events.");
+  }
+}
+
+export async function fetchTransactionsPages(query: string) {
+  noStore();
+  try {
+    const totalPages = Math.ceil(Number(transactions.length) / ITEMS_PER_PAGE);
+
+    return totalPages;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch total number of transactions.");
   }
 }
 

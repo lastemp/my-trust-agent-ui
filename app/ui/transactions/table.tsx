@@ -1,10 +1,10 @@
 import Image from 'next/image';
-import { UpdateEvent, DeleteEvent } from '@/app/ui/events/buttons';
+import { UpdateTransaction, DeleteTransaction } from '@/app/ui/transactions/buttons';
 //import InvoiceStatus from '@/app/ui/artists/status';
 import { formatDateToLocal, formatCurrency, formatCurrencyToLocal } from '@/app/lib/utils';
-import { fetchEvents } from '@/app/lib/data';
+import { fetchTransactions } from '@/app/lib/data';
 
-export default async function EventsTable({
+export default async function TransactionsTable({
   query,
   currentPage,
 }: {
@@ -12,35 +12,40 @@ export default async function EventsTable({
   currentPage: number;
 }) {
   //const invoices = await fetchFilteredInvoices(query, currentPage);
-  const events = await fetchEvents();
+  const transactions = await fetchTransactions();
 
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
         <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
           <div className="md:hidden">
-            {events?.map((event) => (
+            {transactions?.map((transaction) => (
               <div
-                key={event.id}
+                key={transaction.id}
                 className="mb-2 w-full rounded-md bg-white p-4"
               >
                 <div className="flex items-center justify-between border-b pb-4">
                   <div>
-                    <p className="text-sm text-gray-500">{event.name}</p>
+                    <p className="text-sm text-gray-500">{transaction.event_name}</p>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between border-b pb-4">
+                  <div>
+                    <p className="text-sm text-gray-500">{transaction.artist_name}</p>
                   </div>
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
                   <div>
                     <p className="text-xl font-medium">
-                      {formatCurrencyToLocal(event.total_budget)}
+                      {formatCurrencyToLocal(transaction.amount_owed)}
                     </p>
-                    <p>{formatCurrencyToLocal(event.funds_deposited)}</p>
-                    <p>{event.date}</p>
-                    <p>{event.institution_name}</p>
+                    <p>{formatCurrencyToLocal(transaction.amount_paid)}</p>
+                    <p>{transaction.date}</p>
+                    <p>{transaction.institution_name}</p>
                   </div>
                   <div className="flex justify-end gap-2">
-                    <UpdateEvent id={event.id} />
-                    <DeleteEvent id={event.id} />
+                    <UpdateTransaction id={transaction.id} />
+                    <DeleteTransaction id={transaction.id} />
                   </div>
                 </div>
               </div>
@@ -52,11 +57,14 @@ export default async function EventsTable({
                 <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
                   Event
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Total Budget
+                <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
+                  Artist
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Funds Deposited
+                  Amount Owed
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  Amount Paid
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
                   Date
@@ -70,32 +78,37 @@ export default async function EventsTable({
               </tr>
             </thead>
             <tbody className="bg-white">
-              {events?.map((event) => (
+              {transactions?.map((transaction) => (
                 <tr
-                  key={event.id}
+                  key={transaction.id}
                   className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                 >
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex items-center gap-3">
-                      <p>{event.name}</p>
+                      <p>{transaction.event_name}</p>
+                    </div>
+                  </td>
+                  <td className="whitespace-nowrap py-3 pl-6 pr-3">
+                    <div className="flex items-center gap-3">
+                      <p>{transaction.artist_name}</p>
                     </div>
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {formatCurrencyToLocal(event.total_budget)}
+                    {formatCurrencyToLocal(transaction.amount_owed)}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                  {formatCurrencyToLocal(event.funds_deposited)}
+                  {formatCurrencyToLocal(transaction.amount_paid)}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {event.date}
+                    {transaction.date}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {event.institution_name}
+                    {transaction.institution_name}
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
-                      <UpdateEvent id={event.id} />
-                      <DeleteEvent id={event.id} />
+                      <UpdateTransaction id={transaction.id} />
+                      <DeleteTransaction id={transaction.id} />
                     </div>
                   </td>
                 </tr>

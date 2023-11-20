@@ -100,6 +100,11 @@ export type EventField = {
   name: string;
 };
 
+export type TransactionField = {
+  id: string;
+  name: string;
+};
+
 export type InvoiceForm = {
   id: string;
   customer_id: string;
@@ -138,6 +143,16 @@ export type EventForm = {
   name: string;
   total_budget: number;
   funds_deposited: number;
+  date: string;
+  institution_name: string;
+};
+
+export type TransactionForm = {
+  id: string;
+  event_name: string;
+  artist_name: string;
+  amount_owed: number;
+  amount_paid: number;
   date: string;
   institution_name: string;
 };
