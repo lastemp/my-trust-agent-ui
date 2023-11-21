@@ -341,7 +341,7 @@ const events = [
   },
   {
     id: '3958dc9e-712f-4377-85e9-fec4b6a6442a',
-    name: 'Walker Town Nairobi - 2023',
+    name: 'Walker Town Nrb - 2023',
     total_budget: 10000000,
     funds_deposited: 10000000,
     date: '30-09-2023',

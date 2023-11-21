@@ -124,6 +124,25 @@ export async function fetchLatestInvoices() {
   }
 }
 
+export async function fetchLatestEvents() {
+  noStore();
+  try {
+    // tests only
+
+    console.log("Fetching latest events data...");
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    console.log("Data fetch complete after 2 seconds.");
+
+    // events is static data that has been defined in placeholder-data
+
+    return events; //invoices.slice(0, 5);
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch the latest events.");
+  }
+}
+
 export async function fetchCardData() {
   noStore();
   try {
@@ -154,6 +173,7 @@ export async function fetchCardData() {
 
     // tests only
     // invoices is static data that has been defined in placeholder-data
+    /*
     const numberOfInvoices = invoices.length;
     const numberOfCustomers = customers.length;
     const totalPaidInvoices = invoices.filter((x) => x.status == "paid").length;
@@ -166,6 +186,23 @@ export async function fetchCardData() {
       numberOfInvoices,
       totalPaidInvoices,
       totalPendingInvoices,
+    };
+    */
+
+    const numberOfEvents = events.length;
+    const numberOfArtists = artists.length;
+    const totalPaidEvents = events.filter(
+      (x) => x.total_budget == x.funds_deposited
+    ).length;
+    const totalPendingEvents = events.filter(
+      (x) => x.total_budget != x.funds_deposited
+    ).length;
+
+    return {
+      numberOfEvents,
+      numberOfArtists,
+      totalPaidEvents,
+      totalPendingEvents,
     };
   } catch (error) {
     console.error("Database Error:", error);

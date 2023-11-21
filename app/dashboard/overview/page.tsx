@@ -3,7 +3,7 @@ import React from "react";
 //import { Card } from '@/app/ui/dashboard/cards';
 import CardWrapper from '@/app/ui/dashboard/cards';
 import RevenueChart from '@/app/ui/dashboard/revenue-chart';
-import LatestInvoices from '@/app/ui/dashboard/latest-invoices';
+import LatestEvents from '@/app/ui/dashboard/latest-invoices';
 import { lusitana } from '@/app/ui/fonts';
 //import { fetchCardData } from '@/app/lib/data';
 import { Suspense } from 'react';
@@ -25,7 +25,7 @@ export default async function Page() {
           <RevenueChart />
         </Suspense>
         <Suspense fallback={<LatestInvoicesSkeleton />}>
-          <LatestInvoices />
+          <LatestEvents />
         </Suspense>
       </div>
     </main>
